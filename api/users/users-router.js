@@ -25,6 +25,13 @@ router.get("/", restricted, (req, res, next) => { // done for you
     .catch(next);
 });
 
+// router.get("/test", (req, res) => {
+//   Users.find()
+//     .then(users => {
+//       res.json(users)
+//     })
+//   })
+
 /**
   [GET] /api/users/:user_id
 

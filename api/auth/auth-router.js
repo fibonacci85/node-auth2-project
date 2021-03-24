@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets"); // use this secret!
+const { default: jwtDecode } = require("jwt-decode");
+const jwt = require("jsonwebtoken");
+
 
 router.post("/register", validateRoleName, (req, res, next) => {
   /**
@@ -38,5 +41,19 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
     }
    */
 });
+
+function buildToken(user) {
+  const payload = {
+    subject: users.user_id,
+    username: users.username,
+    role: users.role_name
+  }
+   const config = {
+     expiresIn: '1d',
+   }
+   return jwt.sign(
+     payload,JWT_SECRET,config 
+   )
+}
 
 module.exports = router;
